@@ -1,0 +1,40 @@
+@import "src/app/styles/mixins/styles.scss";
+
+.home-container {
+  margin: 2rem 4rem;
+
+  &__header {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: $blue;
+
+    padding-bottom: 1rem;
+    border-bottom: 2px solid $blue;
+  }
+
+  &__actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__upload-btn {
+    width: 8rem;
+    height: 3rem;
+    margin-top: 1.5rem;
+
+    border-radius: 3px;
+    border: none;
+
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: lighten($color: $blue, $amount: 0.2);
+    }
+  }
+}

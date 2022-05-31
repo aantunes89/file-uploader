@@ -1,0 +1,14 @@
+<section class="home-container" mouseMove [isActive]="!(isUploading$ | async)">
+  <header class="home-container__header">Uploaded Files</header>
+  <app-file-item
+    *ngFor="let file of files$ | async"
+    [title]="file?.title"
+    [size]="file?.size"
+  ></app-file-item>
+
+  <div class="home-container__actions">
+    <button (click)="uploadFile()" class="home-container__upload-btn">
+      Upload File
+    </button>
+  </div>
+</section>
