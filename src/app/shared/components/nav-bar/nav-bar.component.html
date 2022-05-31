@@ -1,8 +1,8 @@
-<section class="container">
+<section class="container" mouseMove [isActive]="isLoggedIn$ | async">
   <nav class="nav-bar">
     <header class="nav-bar__header">File Uploader</header>
     <section class="nav-bar__links">
-      <a href="#">Logout</a>
+      <a (click)="logOut()" *ngIf="isLoggedIn$ | async">Logout</a>
     </section>
   </nav>
 </section>

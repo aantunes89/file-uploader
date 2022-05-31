@@ -1,7 +1,8 @@
 @import "src/app/styles/mixins/styles.scss";
 
 .home-container {
-  margin: 2rem 4rem;
+  margin: 0rem 4rem;
+  margin-top: 5rem;
 
   &__header {
     margin-bottom: 1rem;
@@ -34,7 +35,11 @@
     transition: all 0.3s;
 
     &:hover {
-      background-color: lighten($color: $blue, $amount: 0.2);
+      background-color: lighten($color: $dark-blue, $amount: 0.2);
+    }
+
+    &:disabled {
+      background-color: lighten($color: $light-blue, $amount: 0.2);
     }
   }
 }

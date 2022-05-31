@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { LOGIN_STATUS } from '../core/enums/login-status.enum';
-import { StoreService } from '../services/store.service';
-import { TimeOutService } from '../services/time-out.service';
+import { LOGIN_STATUS } from 'src/app/core/enums/login-status.enum';
+import { StoreService } from 'src/app/store/store.service';
+import { TimeOutService } from 'src/app/services/time-out.service';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -21,12 +21,20 @@ export class AuthComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.storeService.storeObs(LOGIN_STATUS.IS_LOGGED_IN, false);
+    this.initializeValues();
   }
 
-  logIn() {
+  initializeValues(): void {
+    this.isLoggedIn$ = this.storeService.getObs(LOGIN_STATUS.IS_LOGGED_IN).pipe(
+      filter((isLoggedIn: boolean) => isLoggedIn === true),
+      tap(() => {
+        this.router.navigateByUrl('home');
+      })
+    );
+  }
+
+  public logIn(): void {
     this.storeService.updateObs(LOGIN_STATUS.IS_LOGGED_IN, true);
-    this.router.navigateByUrl('home');
   }
 
   logOut() {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LOGIN_STATUS } from '../core/enums/login-status.enum';
-import { StoreService } from '../services/store.service';
-import { TimeOutService } from '../services/time-out.service';
-import { FileItem } from './types/filte-item.interface';
+
+import { StoreService } from 'src/app/store/store.service';
+import { TimeOutService } from 'src/app/services/time-out.service';
+import { FileItem } from 'src/app/home/types/filte-item.interface';
+import { ClockStatus } from 'src/app/core/enums/clock-status.enum';
 
 @Component({
   selector: 'app-home',
@@ -14,16 +14,16 @@ import { FileItem } from './types/filte-item.interface';
 })
 export class HomeComponent implements OnInit {
   public filesCopy: FileItem[];
+
   public files$: Observable<FileItem[]>;
   public isUploading$: Observable<boolean>;
 
   constructor(
     private storeService: StoreService,
-    private timeOutService: TimeOutService,
-    private router: Router
+    private timeOutService: TimeOutService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.timeOutService.setTimeOutClock();
     this.initializeFiles();
 
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     this.isUploading$ = this.storeService.getObs('IS_UPLOADING');
   }
 
-  initializeFiles() {
+  public initializeFiles() {
     this.files$ = this.storeService
       .getObs('FILES')
       .pipe(tap((files) => (this.filesCopy = [...files])));
@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
   public uploadFile() {
     this.timeOutService.clearTimeoutClock();
     this.storeService.updateObs('IS_UPLOADING', true);
+    this.storeService.updateObs(ClockStatus.START_CLOCK, true);
 
     setTimeout(() => {
       this.saveFile({
@@ -49,6 +50,10 @@ export class HomeComponent implements OnInit {
 
       this.timeOutService.setTimeOutClock();
       this.storeService.updateObs('IS_UPLOADING', false);
+
+      // apagar
+      this.storeService.updateObs(ClockStatus.START_CLOCK, false);
+      this.storeService.updateObs(ClockStatus.START_CLOCK, true);
     }, 20000);
   }
 

@@ -21,6 +21,6 @@
 
   &__login-btn:hover {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    background-color: lighten($color: $blue, $amount: 0.2);
+    background-color: lighten($color: $dark-blue, $amount: 0.2);
   }
 }

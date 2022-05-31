@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LOGIN_STATUS } from '../core/enums/login-status.enum';
-import { StoreService } from './store.service';
+import { LOGIN_STATUS } from 'src/app/core/enums/login-status.enum';
+import { StoreService } from 'src/app/store/store.service';
 
 @Injectable({
   providedIn: 'root',

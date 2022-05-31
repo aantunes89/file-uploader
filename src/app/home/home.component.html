@@ -7,7 +7,11 @@
   ></app-file-item>
 
   <div class="home-container__actions">
-    <button (click)="uploadFile()" class="home-container__upload-btn">
+    <button
+      [disabled]="isUploading$ | async"
+      (click)="uploadFile()"
+      class="home-container__upload-btn"
+    >
       Upload File
     </button>
   </div>

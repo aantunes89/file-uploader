@@ -23,7 +23,7 @@ export class MouseMoveDirective {
 
     this.mouseMoveClock = setTimeout(() => {
       this.timeOutService.setTimeOutClock();
-    }, 100);
+    }, 500);
   }
 
   checkMouseMoveAndStopClock() {
