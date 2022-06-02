@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FileItem } from 'src/app/home/types/filte-item.interface';
 import { StoreService } from 'src/app/store/store.service';
-import { LOGIN_STATUS } from 'src/app/core/enums/login-status.enum';
+import { ACTION_TYPES } from 'src/app/core/enums/action-types.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -16,16 +16,18 @@ export class StartupService {
   constructor(private storeService: StoreService) {}
 
   public initializeApp(): void {
-    this.storeService.storeObs(LOGIN_STATUS.IS_LOGGED_IN, false);
-    const files = localStorage.getItem('FILES');
+    this.storeService.storeObs<boolean>(ACTION_TYPES.IS_LOGGED_IN, false);
+    this.storeService.storeObs<boolean>(ACTION_TYPES.IS_UPLOADING, false);
 
-    files
-      ? this.storeService.storeObs('FILES', JSON.parse(files))
-      : this.initializeLocalStorageAndStore();
+    this.initializeFiles();
   }
 
-  initializeLocalStorageAndStore() {
-    localStorage.setItem('FILES', JSON.stringify(this.files));
-    this.storeService.storeObs('FILES', this.files);
+  public initializeFiles(): void {
+    const files =
+      (JSON.parse(localStorage.getItem(ACTION_TYPES.FILES)) as FileItem) ??
+      this.files;
+
+    this.storeService.storeObs(ACTION_TYPES.FILES, files);
+    localStorage.setItem(ACTION_TYPES.FILES, JSON.stringify(files));
   }
 }

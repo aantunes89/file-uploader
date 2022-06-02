@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { StoreService } from 'src/app/store/store.service';
 import { TimeOutService } from 'src/app/services/time-out.service';
 import { FileItem } from 'src/app/home/types/filte-item.interface';
-import { ClockStatus } from 'src/app/core/enums/clock-status.enum';
+import { ACTION_TYPES } from 'src/app/core/enums/action-types.enum';
 
 @Component({
   selector: 'app-home',
@@ -25,22 +25,24 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.timeOutService.setTimeOutClock();
-    this.initializeFiles();
+    this.initializeValues();
 
-    this.storeService.storeObs('IS_UPLOADING', false);
-    this.isUploading$ = this.storeService.getObs('IS_UPLOADING');
+    this.storeService.updateObs(ACTION_TYPES.IS_LOGGED_IN, true);
   }
 
-  public initializeFiles() {
+  public initializeValues() {
     this.files$ = this.storeService
-      .getObs('FILES')
+      .getObs<FileItem[]>(ACTION_TYPES.FILES)
       .pipe(tap((files) => (this.filesCopy = [...files])));
+
+    this.isUploading$ = this.storeService.getObs<boolean>(
+      ACTION_TYPES.IS_UPLOADING
+    );
   }
 
   public uploadFile() {
     this.timeOutService.clearTimeoutClock();
-    this.storeService.updateObs('IS_UPLOADING', true);
-    this.storeService.updateObs(ClockStatus.START_CLOCK, true);
+    this.storeService.updateObs(ACTION_TYPES.IS_UPLOADING, true);
 
     setTimeout(() => {
       this.saveFile({
@@ -49,20 +51,15 @@ export class HomeComponent implements OnInit {
       });
 
       this.timeOutService.setTimeOutClock();
-      this.storeService.updateObs('IS_UPLOADING', false);
-
-      // apagar
-      this.storeService.updateObs(ClockStatus.START_CLOCK, false);
-      this.storeService.updateObs(ClockStatus.START_CLOCK, true);
+      this.storeService.updateObs(ACTION_TYPES.IS_UPLOADING, false);
     }, 20000);
   }
 
   public saveFile(fileItem: FileItem) {
-    localStorage.removeItem('FILES');
-
     const newFileList = [...this.filesCopy, fileItem];
+    this.storeService.updateObs(ACTION_TYPES.FILES, newFileList);
 
-    localStorage.setItem('FILES', JSON.stringify(newFileList));
-    this.storeService.updateObs('FILES', newFileList);
+    localStorage.removeItem(ACTION_TYPES.FILES);
+    localStorage.setItem(ACTION_TYPES.FILES, JSON.stringify(newFileList));
   }
 }

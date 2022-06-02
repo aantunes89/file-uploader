@@ -9,17 +9,17 @@ export class StoreService {
 
   constructor() {}
 
-  public updateObs(type: string, value: any): void {
+  public updateObs<Type>(type: string, value: Type): void {
     const obs = this.obsStore.get(type);
 
     obs ? obs.next(value) : this.storeObs(type, value);
   }
 
-  public storeObs(type: string, value: any): void {
-    this.obsStore.set(type, new BehaviorSubject(value));
+  public storeObs<Type>(type: string, value: Type): void {
+    this.obsStore.set(type, new BehaviorSubject<Type>(value));
   }
 
-  public getObs(type: string) {
+  public getObs<Type>(type: string): Observable<Type> {
     const obs = this.obsStore.get(type);
 
     if (obs) {

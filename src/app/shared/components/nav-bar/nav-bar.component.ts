@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { LOGIN_STATUS } from 'src/app/core/enums/login-status.enum';
+import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { ACTION_TYPES } from 'src/app/core/enums/action-types.enum';
 import { StoreService } from 'src/app/store/store.service';
 
 @Component({
@@ -11,15 +12,24 @@ import { StoreService } from 'src/app/store/store.service';
 })
 export class NavBarComponent implements OnInit {
   public isLoggedIn$: Observable<boolean>;
+  public isUploading$: Observable<boolean>;
+  public vm$: Observable<boolean>;
 
   constructor(private storeService: StoreService, private router: Router) {}
 
   ngOnInit(): void {
-    this.isLoggedIn$ = this.storeService.getObs(LOGIN_STATUS.IS_LOGGED_IN);
+    this.isLoggedIn$ = this.storeService.getObs(ACTION_TYPES.IS_LOGGED_IN);
+    this.isUploading$ = this.storeService.getObs(ACTION_TYPES.IS_UPLOADING);
+
+    this.vm$ = combineLatest([this.isLoggedIn$, this.isUploading$]).pipe(
+      map(([isLoggedIn, isUploading]) => {
+        return isLoggedIn && !isUploading ? true : false;
+      })
+    );
   }
 
   public async logOut(): Promise<void> {
     await this.router.navigateByUrl('/');
-    this.storeService.updateObs(LOGIN_STATUS.IS_LOGGED_IN, false);
+    this.storeService.updateObs(ACTION_TYPES.IS_LOGGED_IN, false);
   }
 }

@@ -1,0 +1,3 @@
+export enum UPLOAD_STATUS {
+  IS_UPLOADING = 'IS_UPLOADING',
+}

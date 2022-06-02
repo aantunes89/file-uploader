@@ -7,7 +7,7 @@ import { StoreService } from 'src/app/store/store.service';
   providedIn: 'root',
 })
 export class TimeOutService {
-  private currentClock;
+  currentClock;
 
   constructor(private storeService: StoreService, private router: Router) {}
 

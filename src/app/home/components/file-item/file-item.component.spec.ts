@@ -8,9 +8,8 @@ describe('FileItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileItemComponent ]
-    })
-    .compileComponents();
+      declarations: [FileItemComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,35 @@ describe('FileItemComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should have the correct input values', () => {
+    component.size = 10;
+    component.title = 'Title';
+
+    expect(component.size).toEqual(10);
+    expect(component.title).toEqual('Title');
+  });
+
+  it('should render a container', () => {
+    const container = fixture.nativeElement.querySelector(
+      '[data-test="file-item-container"]'
+    );
+
+    expect(container).toBeTruthy();
+  });
+
+  it('should render a size', () => {
+    const size = fixture.nativeElement.querySelector(
+      '[data-test="file-item-size"]'
+    );
+
+    expect(size).toBeTruthy();
+  });
+
+  it('should render a title', () => {
+    const title = fixture.nativeElement.querySelector(
+      '[data-test="file-item-title"]'
+    );
+
+    expect(title).toBeTruthy();
   });
 });

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MouseMoveDirective } from './mouse-move.directive';
+import { MouseClickDirective } from './mouse-move.directive';
 
 @NgModule({
-  declarations: [MouseMoveDirective],
+  declarations: [MouseClickDirective],
   imports: [CommonModule],
-  exports: [MouseMoveDirective],
+  exports: [MouseClickDirective],
   providers: [],
 })
 export class DirectivesModule {}

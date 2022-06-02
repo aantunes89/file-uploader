@@ -2,32 +2,32 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { TimeOutService } from 'src/app/services/time-out.service';
 
 @Directive({
-  selector: '[mouseMove]',
+  selector: '[mouseClick]',
 })
-export class MouseMoveDirective {
+export class MouseClickDirective {
   @Input('isActive') isActive: boolean = true;
 
-  mouseMoveClock;
+  mouseClickClock;
 
   constructor(private timeOutService: TimeOutService) {}
 
-  @HostListener('mousemove')
-  mouseenter() {
+  @HostListener('click')
+  click() {
     this.isActive
-      ? this.onMouseMoveRoutine()
-      : this.checkMouseMoveAndStopClock();
+      ? this.onMouseClickRoutine()
+      : this.checkMouseClickAndStopClock();
   }
 
-  onMouseMoveRoutine() {
-    this.checkMouseMoveAndStopClock();
+  onMouseClickRoutine() {
+    this.checkMouseClickAndStopClock();
 
-    this.mouseMoveClock = setTimeout(() => {
+    this.mouseClickClock = window.setTimeout(() => {
       this.timeOutService.setTimeOutClock();
     }, 500);
   }
 
-  checkMouseMoveAndStopClock() {
+  checkMouseClickAndStopClock() {
     this.timeOutService.clearTimeoutClock();
-    this.mouseMoveClock && clearTimeout(this.mouseMoveClock);
+    this.mouseClickClock && window.clearTimeout(this.mouseClickClock);
   }
 }
