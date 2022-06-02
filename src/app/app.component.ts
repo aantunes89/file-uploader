@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { filter, tap } from 'rxjs/operators';
 import { StoreService } from 'src/app/store/store.service';
 import { CLOCK_STATUS } from 'src/app/core/enums/clock-status.enum';
-import { LOGIN_STATUS } from 'src/app/core/enums/login-status.enum';
 
 @Component({
   selector: 'app-root',
