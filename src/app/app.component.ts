@@ -14,31 +14,27 @@ export class AppComponent implements OnInit {
   constructor(private storeService: StoreService) {}
 
   ngOnInit(): void {
-    // apagar
-    this.storeService.storeObs(CLOCK_STATUS.START_CLOCK, false);
     // this.initializeClock();
-
-    // this.setupIsLoggedInSubscription();
   }
 
   // apagar
-  initializeClock(): void {
-    this.storeService
-      .getObs(CLOCK_STATUS.START_CLOCK)
-      .pipe(
-        tap(console.log),
-        filter((isOn: boolean) => {
-          clearInterval(this.interval);
-          return isOn === true;
-        }),
-        tap(() => {
-          let counter = 0;
-          this.interval = setInterval(() => {
-            counter = counter + 1;
-            console.log(counter);
-          }, 1000);
-        })
-      )
-      .subscribe();
-  }
+  // initializeClock(): void {
+  //   this.storeService
+  //     .getObs(CLOCK_STATUS.START_CLOCK)
+  //     .pipe(
+  //       tap(console.log),
+  //       filter((isOn: boolean) => {
+  //         clearInterval(this.interval);
+  //         return isOn === true;
+  //       }),
+  //       tap(() => {
+  //         let counter = 0;
+  //         this.interval = setInterval(() => {
+  //           counter = counter + 1;
+  //           console.log(counter);
+  //         }, 1000);
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 }

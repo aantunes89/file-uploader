@@ -6,6 +6,7 @@ import { StoreService } from 'src/app/store/store.service';
 import { TimeOutService } from 'src/app/services/time-out.service';
 import { FileItem } from 'src/app/home/types/filte-item.interface';
 import { ACTION_TYPES } from 'src/app/core/enums/action-types.enum';
+import { CLOCK_STATUS } from '../core/enums/clock-status.enum';
 
 @Component({
   selector: 'app-home',
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit {
   public uploadFile() {
     this.timeOutService.clearTimeoutClock();
     this.storeService.updateObs(ACTION_TYPES.IS_UPLOADING, true);
+    // this.storeService.updateObs(CLOCK_STATUS.START_CLOCK, true);
 
     setTimeout(() => {
       this.saveFile({
@@ -52,6 +54,7 @@ export class HomeComponent implements OnInit {
 
       this.timeOutService.setTimeOutClock();
       this.storeService.updateObs(ACTION_TYPES.IS_UPLOADING, false);
+      // this.storeService.updateObs(CLOCK_STATUS.START_CLOCK, false);
     }, 20000);
   }
 
